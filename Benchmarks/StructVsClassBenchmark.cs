@@ -35,10 +35,29 @@ namespace Benchmarks
         
         #endregion
     }
-    public struct S
+    public struct S : IEquatable<S>
     {
         public int N;
         public string Str;
+
+        public bool Equals(S other)
+        {
+            return N == other.N && string.Equals(Str, other.Str);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (N * 397) ^ (Str != null ? Str.GetHashCode() : 0);
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            return obj is S && Equals((S) obj);
+        }
     }
     
     public class StructVsClassBenchmark

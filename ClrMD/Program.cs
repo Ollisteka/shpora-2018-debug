@@ -16,7 +16,7 @@ namespace ClrMD
             // using (var dt = DataTarget.AttachToProcess(pid, msTimeout, AttachFlag.Invasive))
             // using (var dt = DataTarget.AttachToProcess(pid, msTimeout, AttachFlag.NonInvasive))
             // using (var dt = DataTarget.AttachToProcess(pid, msTimeout, AttachFlag.Passive))
-            using (var dt = DataTarget.LoadCrashDump(args[0]))
+            using (var dt = DataTarget.LoadCrashDump(@"C:\dumps\chrome.dmp"))
              {
                 if (dt.PointerSize != IntPtr.Size)
                     throw new Exception();

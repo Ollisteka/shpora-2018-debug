@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 
 namespace Windbg.Demo
 {
@@ -9,10 +10,10 @@ namespace Windbg.Demo
             for (int i = 0; i < 50; i++)
             {
                 var buffer = new byte[1024 * 1024];
-
+                var x = buffer.ToString();
                 var timer = new Timer(_ =>
                 {
-                    buffer.ToString();
+                    Console.WriteLine(x);
                 });
 
                 timer.Change(1000, 1000);

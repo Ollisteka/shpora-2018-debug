@@ -1,5 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2005
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{53BAAC6B-3C1F-4C03-B8DD-A438D4928CB6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks", "Benchmarks\Benchmarks.csproj", "{73AF5796-94FA-4037-929E-47C772328BFD}"
@@ -25,6 +28,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClrMD.Target", "ClrMD.Target\ClrMD.Target.csproj", "{81E00D75-E5CB-4436-B6BC-A7633306BBE4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager", "TaskManager\TaskManager.csproj", "{49D26EE8-DE5B-4725-AEE3-2F3CFFB87D82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetricsCollector", "MetricsCollector\MetricsCollector.csproj", "{523BA235-5035-45ED-BF2A-5A8745B442E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,5 +89,15 @@ Global
 		{49D26EE8-DE5B-4725-AEE3-2F3CFFB87D82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49D26EE8-DE5B-4725-AEE3-2F3CFFB87D82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49D26EE8-DE5B-4725-AEE3-2F3CFFB87D82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{523BA235-5035-45ED-BF2A-5A8745B442E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{523BA235-5035-45ED-BF2A-5A8745B442E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{523BA235-5035-45ED-BF2A-5A8745B442E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{523BA235-5035-45ED-BF2A-5A8745B442E2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {19D988A3-BAE4-48FA-BC92-B8A32EE99A60}
 	EndGlobalSection
 EndGlobal

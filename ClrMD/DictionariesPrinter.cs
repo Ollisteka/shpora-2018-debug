@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Text;
 using Microsoft.Diagnostics.Runtime;
 
@@ -20,7 +22,7 @@ namespace ClrMD
         private static void PrintDictionary(ClrObject dictClrObject)
         {
             var entries = dictClrObject.GetObjectField("entries");
-         
+            
             if (entries.IsNull)
                 return;
             
@@ -49,7 +51,7 @@ namespace ClrMD
 
         public static void PrintConcurrentDictionaries(ClrHeap heap)
         {
-            const string concurrentDictionaryTypeName = "...";
+            const string concurrentDictionaryTypeName = "System.Collections.Concurrent.ConcurrentDictionary<System.String,System.String>";
             
             foreach (var clrObject in heap.EnumerateObjects())
             {
@@ -63,7 +65,23 @@ namespace ClrMD
         private static void PrintConcurrentDictionary(ClrObject dictClrObject)
         {
             var tables = dictClrObject.GetObjectField("m_tables");
-            //TODO: print items
+            var nodes = tables.GetObjectField("m_buckets");
+
+            var arrayType = nodes.Type;
+            var heap = arrayType.Heap;
+           
+            foreach (var item in nodes.EnumerateObjectReferences())
+            {
+                var node = item;
+                while (!node.IsNull)
+                {
+                    var key = Repr(heap, node.GetObjectField("m_key").Address);
+                    var value = Repr(heap, node.GetObjectField("m_value").Address);
+                    Console.WriteLine($"{key}:{value}");
+                    node = node.GetObjectField("m_next");
+                }
+            }
+            Console.WriteLine();
         }
 
 

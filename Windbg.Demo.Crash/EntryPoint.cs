@@ -40,7 +40,7 @@ namespace Windbg.Demo
         {
             field /= 2;
 
-            Method1();
+          //  Method1();
 
             field /= 2;
         }
