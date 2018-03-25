@@ -14,8 +14,9 @@ namespace JPEG
 	class Program
 	{
 		const int CompressionQuality = 70;
+        const int DCTSize = 8;
 
-		static void Main(string[] args)
+        static void Main(string[] args)
 		{
 			try
 			{
@@ -58,12 +59,13 @@ namespace JPEG
 		private static CompressedImage Compress(Matrix matrix, int quality = 50)
 		{
 			var allQuantizedBytes = new List<byte>();
+            var selectors = new Func<Pixel, double>[] {p => p.Y, p => p.Cb, p => p.Cr};
 
-			for(var y = 0; y < matrix.Height; y += DCTSize)
+            for (var y = 0; y < matrix.Height; y += DCTSize)
 			{
 				for(var x = 0; x < matrix.Width; x += DCTSize)
 				{
-					foreach (var selector in new Func<Pixel, double>[] {p => p.Y, p => p.Cb, p => p.Cr})
+					foreach (var selector in selectors)
 					{
 						var subMatrix = GetSubMatrix(matrix, y, DCTSize, x, DCTSize, selector);
 						ShiftMatrixValues(subMatrix, -128);
@@ -75,28 +77,26 @@ namespace JPEG
 				}
 			}
 
-			long bitsCount;
-			Dictionary<BitsWithLength, byte> decodeTable;
-			var compressedBytes = HuffmanCodec.Encode(allQuantizedBytes, out decodeTable, out bitsCount);
+            var compressedBytes = HuffmanCodec.Encode(allQuantizedBytes, out var decodeTable, out var bitsCount);
 
 			return new CompressedImage {Quality = quality, CompressedBytes = compressedBytes, BitsCount = bitsCount, DecodeTable = decodeTable, Height = matrix.Height, Width = matrix.Width};
 		}
 		
 		private static Matrix Uncompress(CompressedImage image)
 		{
+
 			var result = new Matrix(image.Height, image.Width);
-			using (var allQuantizedBytes =
+            using (var allQuantizedBytes =
 				new MemoryStream(HuffmanCodec.Decode(image.CompressedBytes, image.DecodeTable, image.BitsCount)))
 			{
-				var freqNum = 0;
 				for (var y = 0; y < image.Height; y += DCTSize)
 				{
 					for (var x = 0; x < image.Width; x += DCTSize)
 					{
-						var _y = new double[DCTSize, DCTSize];
-						var cb = new double[DCTSize, DCTSize];
-						var cr = new double[DCTSize, DCTSize];
-						foreach (var channel in new []{_y, cb, cr})
+                        var _y = new double[DCTSize, DCTSize];
+                        var cb = new double[DCTSize, DCTSize];
+                        var cr = new double[DCTSize, DCTSize];
+                        foreach (var channel in new []{_y, cb, cr})
 						{
 							var quantizedBytes = new byte[DCTSize * DCTSize];
 							allQuantizedBytes.ReadAsync(quantizedBytes, 0, quantizedBytes.Length).Wait();
@@ -233,6 +233,6 @@ namespace JPEG
 			return result;
 		}
 
-		const int DCTSize = 8;
+		
 	}
 }
